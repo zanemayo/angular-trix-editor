@@ -1,0 +1,21 @@
+{
+  "name": "angular-trix-editor",
+  "description": "",
+  "version": "v0.0.0",
+  "main": "directive.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7"
+  }
+}
