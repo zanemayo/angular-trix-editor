@@ -1,43 +1,48 @@
 angular.module('zm.angular-trix-editor', []).
-  directive('angularTrixEditor', [function() {
+  directive('angularTrixEditor', ['$timeout', function($timeout) {
     return {
-      restrict: 'E',
+      restrict: 'A',
+      require: "ngModel",
       scope: {
-        content: '='
+        editor: '=',
+        trixInitialize: '&',
+        trixChange: '&',
+        trixSelectionChange: '&',
+        trixFocus: '&',
+        trixBlur: '&',
+        trixFileAccept: '&',
+        trixAttachmentAdd: '&',
+        trixAttachmentRemove: '&'
       },
-      template: '<trix-editor></trix-editor>',
-      link: function(scope, element, attrs) {
-        var trixElement = element.find('trix-editor');
-        var editor = trixElement[0].editor;
-        var updatedByUs = false;
+      link: function(scope, element, attrs, ngModel) {
+        scope.editor = element[0].editor;
 
-        trixElement.on('trix-initialize', function() {
-          //console.log('trix initialized');
-        });
-        trixElement.on('trix-change', function() {
-          console.log('trix content changed');
-          //console.log(trixEditor);
-          //console.log(element);
-          scope.$apply(function() {
-            updatedByUs = true;
-            scope.content = trixElement.html();
-          })
-        });
+        var setupEvent = function(eventName, functionName) {
+          element.on(eventName, function(event) {
+            scope.$apply(function() {
+              scope[functionName]({event:event});
+            });
+          });
+        };
 
-        scope.$watch('content', function(newValue, oldValue) {
-          //if(oldValue === undefined && newValue !== undefined) {
-            if(!updatedByUs) {
-              editor.loadHTML(newValue);
-            }
-            updatedByUs = false;
-          //}
-            console.log('NEW CONTENT: ' + newValue + ' || old: ' + oldValue);
+        setupEvent('trix-initialize', 'trixInitialize');
+        setupEvent('trix-change', 'trixChange');
+        setupEvent('trix-selection-change', 'trixSelectionChange');
+        setupEvent('trix-focus', 'trixFocus');
+        setupEvent('trix-blur', 'trixBlur');
+        setupEvent('trix-file-accept', 'trixFileAccept');
+        setupEvent('trix-attachment-add', 'trixAttachmentAdd');
+        setupEvent('trix-attachment-remove', 'trixAttachmentRemove');
+
+        element.on('trix-change', function() {
+          ngModel.$setViewValue(element.html());
         });
 
-      },
-      controller: function() {
-
-      },
-      controllerAs: 'trixCtrl'
+        ngModel.$render = function() {
+          $timeout(function() {
+            scope.editor.loadHTML(ngModel.$viewValue);
+          });
+        };
+      }
     }
   }]);

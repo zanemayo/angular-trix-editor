@@ -2,7 +2,7 @@
   "name": "angular-trix-editor",
   "description": "",
   "version": "v0.0.0",
-  "main": "directive.js",
+  "main": "src/directive.js",
   "moduleType": [
     "amd"
   ],
@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7"
+    "angular": "~1.4.7",
+    "trix": "~0.9.0"
   }
 }
