@@ -1,17 +1,11 @@
 {
   "name": "angular-trix-editor",
-  "description": "",
-  "version": "v0.0.0",
-  "main": "src/directive.js",
-  "moduleType": [
-    "amd"
-  ],
+  "description": "Use the Trix Editor in Angular",
+  "version": "v0.2.1",
+  "main": "angular-trix-editor.js",
   "license": "MIT",
-  "homepage": "",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
     "test",
     "tests"
   ],
