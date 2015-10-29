@@ -15,7 +15,28 @@ angular.module('zm.angular-trix-editor', []).
         trixAttachmentRemove: '&'
       },
       link: function(scope, element, attrs, ngModel) {
-        scope.editor = element[0].editor;
+        scope.editor = null;
+
+        element.on('trix-initialize', function() {
+          scope.editor = element[0].editor;
+        });
+
+        element.on('trix-change', function() {
+          ngModel.$setViewValue(element.html());
+        });
+
+        ngModel.$render = function() {
+          if(scope.editor) {
+            $timeout(function() {
+              scope.editor.loadHTML(ngModel.$viewValue);
+            });
+          }
+          else {
+            element.on('trix-initialize', function() {
+              scope.editor.loadHTML(ngModel.$viewValue);
+            });
+          }
+        };
 
         var setupEvent = function(eventName, functionName) {
           element.on(eventName, function(event) {
@@ -33,16 +54,6 @@ angular.module('zm.angular-trix-editor', []).
         setupEvent('trix-file-accept', 'trixFileAccept');
         setupEvent('trix-attachment-add', 'trixAttachmentAdd');
         setupEvent('trix-attachment-remove', 'trixAttachmentRemove');
-
-        element.on('trix-change', function() {
-          ngModel.$setViewValue(element.html());
-        });
-
-        ngModel.$render = function() {
-          $timeout(function() {
-            scope.editor.loadHTML(ngModel.$viewValue);
-          });
-        };
       }
     }
   }]);
