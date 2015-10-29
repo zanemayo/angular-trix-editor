@@ -1,0 +1,25 @@
+{
+  "name": "angular-trix-editor",
+  "version": "0.3.2",
+  "description": "An Angular wrapper for the Trix Editor",
+  "main": "angular-trix-editor.js",
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zanemayo/angular-trix-editor.git"
+  },
+  "keywords": [
+    "angular",
+    "trix"
+  ],
+  "author": "Zane Mayo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zanemayo/angular-trix-editor/issues"
+  }
+}
