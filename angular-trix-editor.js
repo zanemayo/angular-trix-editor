@@ -21,10 +21,6 @@ angular.module('zm.angular-trix-editor', []).
           scope.editor = element[0].editor;
         });
 
-        element.on('trix-change', function() {
-          ngModel.$setViewValue(element.html());
-        });
-
         ngModel.$render = function() {
           if(scope.editor) {
             $timeout(function() {
@@ -34,6 +30,12 @@ angular.module('zm.angular-trix-editor', []).
           else {
             element.on('trix-initialize', function() {
               scope.editor.loadHTML(ngModel.$viewValue);
+
+              // After load of html trix-change event can be safely registered
+              element.on('trix-change', function() {
+                ngModel.$setViewValue(element.html());
+              });
+
             });
           }
         };
@@ -55,5 +57,5 @@ angular.module('zm.angular-trix-editor', []).
         setupEvent('trix-attachment-add', 'trixAttachmentAdd');
         setupEvent('trix-attachment-remove', 'trixAttachmentRemove');
       }
-    }
+    };
   }]);
